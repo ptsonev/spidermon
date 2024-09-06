@@ -124,8 +124,8 @@
                         {#------------------------
                           JOB OR SPIDER
                         ------------------------#}
-                        {% set items_count = data.stats.get('item_scraped_count', 0) %}
-                        {% set requests_count = data.stats.get('downloader/request_count', 0) %}
+                        {% set items_count = data.stats.get('item_scraped_count') %}
+                        {% set requests_count = data.stats.get('downloader/request_count') %}
                         {% set stats_count = data.stats|length %}
                         {% set passed_monitors_count = result.monitors_passed_results|length %}
                         {% set failed_monitors_count = result.monitors_failed_results|length %}
@@ -134,11 +134,11 @@
                         ------------------------#}
                         {% if data.job %}
                             {% set is_script = data.job.metadata.get('spider').startswith('py:') %}
-                            {% set job_finished_time = data.job.metadata.get('finished_time', 0) %}
+                            {% set job_finished_time = data.job.metadata.get('finished_time') %}
                             {% if not job_finished_time %}
                                 {% set job_finished_time = datetime.datetime.utcnow().strftime('%s')|int*1000 %}
                             {% endif %}
-                            {% set job_running_time = data.job.metadata.get('running_time', 0) %}
+                            {% set job_running_time = data.job.metadata.get('running_time') %}
                             {% set running_time = job_finished_time - job_running_time %}
 
                             {% if is_script %}
@@ -156,7 +156,7 @@
                                 {{ render_header_data('Errors', log_errors_count, "badge badge-red") }}
                                 {{ render_header_data('Logs', logs_count, "badge") }}
                             {% else %}
-                                {% set log_errors_count = data.stats.get('log_count/ERROR', 0) %}
+                                {% set log_errors_count = data.stats.get('log_count/ERROR') %}
                                 {{ render_header_data('Errors', log_errors_count, "badge badge-red") }}
                             {% endif %}
                             {{ render_header_data('Stats', stats_count, "badge") }}
@@ -165,7 +165,7 @@
                           SPIDER
                         ------------------------#}
                         {% elif data.spider %}
-                            {% set log_errors_count = data.stats.get('log_count/ERROR', 0) %}
+                            {% set log_errors_count = data.stats.get('log_count/ERROR') %}
                             {% set running_time = data.stats.get('finish_time') - data.stats.get('start_time') %}
 
                             {{ render_header_data('Spider', data.spider.name, 'label label-blue') }}
